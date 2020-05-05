@@ -27,5 +27,6 @@ rm -rf /run/log/journal/*
 dd if=/dev/zero of=/EMPTY bs=1M
 rm -f /EMPTY
 sync
-grub2-set-default 1
-echo "###   Hi from secone stage" >> /boot/grub2/grub.cfg
+echo ">>>> Step 3 already complete! <<<<"
+#grub2-set-default 1
+#echo "###   Hi from secone stage" >> /boot/grub2/grub.cfg

@@ -1,6 +1,6 @@
 {
   "variables": {
-    "artifact_description": "CentOS 7.7 with kernel 5.x",
+    "artifact_description": "CentOS 7.7 with kernel 5.4.36",
     "artifact_version": "7.7.1908",
     "image_name": "centos-7.7"
   },
@@ -9,10 +9,10 @@
     {
       "name": "{{user `image_name`}}",
       "type": "virtualbox-iso",
-      "vm_name": "packer-centos-vm",
+      "vm_name": "custom-kernel-centos-vm",
 
       "boot_wait": "10s",
-      "disk_size": "10240",
+      "disk_size": "30000",
       "guest_os_type": "RedHat_64",
       "http_directory": "http",
 
@@ -36,8 +36,8 @@
       "output_directory": "builds",
 
       "vboxmanage": [
-        [  "modifyvm",  "{{.Name}}",  "--memory",  "1024" ],
-        [  "modifyvm",  "{{.Name}}",  "--cpus",  "2" ]
+        [  "modifyvm",  "{{.Name}}",  "--memory",  "2048" ],
+        [  "modifyvm",  "{{.Name}}",  "--cpus",  "4" ]
       ],
 
       "export_opts":
@@ -53,7 +53,7 @@
 
   "post-processors": [
     {
-      "output": "centos-{{user `artifact_version`}}-kernel-5-x86_64-Minimal.box",
+      "output": "centos-{{user `artifact_version`}}-k5.4-x86_64.box",
       "compression_level": "7",
       "type": "vagrant"
     }
@@ -69,7 +69,8 @@
         "{{user `image_name`}}" : {
           "scripts" :
             [
-              "scripts/stage-1-kernel-update.sh",
+              "scripts/os-customise-step-1.sh",
+              "scripts/os-customise-step-2.sh",
               "scripts/stage-2-clean.sh"
             ]
         }
